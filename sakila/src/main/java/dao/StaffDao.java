@@ -1,5 +1,8 @@
 package dao;
 import java.util.*;
+
+import util.DBUtil;
+
 import java.sql.*;
 public class StaffDao {
 	public List<Map<String, Object>> selectStaffList() {
@@ -8,8 +11,8 @@ public class StaffDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila","root","java1234");
+			
+			conn = DBUtil.getConnection();
 			/*
 				SELECT
 					s1.manager_staff_id staffId, 

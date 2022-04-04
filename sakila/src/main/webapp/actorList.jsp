@@ -1,9 +1,20 @@
+<%@page import="vo.ActorInfo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
 <%@ page import="dao.*"%>
 <%
-	StoreDao storeDao = new StoreDao();
-	List<Map<String, Object>> list = storeDao.selectStoreList();
+
+	int currentPage = 1;
+	if(request.getParameter("currentPage") !=  null) {
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
+
+	int rowPerPage = 5;
+	int beginRow = (currentPage - 1) * rowPerPage;
+	
+	ActorInfoDao ai = new ActorInfoDao();
+	List<ActorInfo> list = ai.selectActorInfoListByPage(beginRow, rowPerPage);
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -28,6 +39,7 @@
 	  <div class="container col-sm-1">
 	  </div>
 	  <div class="container col-sm-1">
+		
 		<jsp:include page="/inc/leftMenu.jsp"></jsp:include>
 	  </div>
 	  <div class="container col-sm-1">
@@ -36,33 +48,35 @@
 	  <div class="col-sm-5 container">
 		
 	<h1>Store List</h1>
-	<table border="1">
+	<table border="1" class="table table-striped">
 		<thead>
 			<tr>
-				<th>storeId</th>
-				<th>staffId</th>
-				<th>staffName</th>
-				<th>addressId</th>
-				<th>staffAddress</th>
-				<th>lastUpdate</th>
+				<th>actorId</th>
+				<th>firstName</th>
+				<th>lastName</th>
+				<th>filmInfo</th>
 			</tr>
 		</thead>
 		<tbody>
 			<%
-				for(Map m : list) {
+				for(ActorInfo a : list) {
 			%>
 					<tr>
-						<td><%=m.get("storeId")%></td>
-						<td><%=m.get("staffId")%></td>
-						<td><%=m.get("staffName")%></td>
-						<td><%=m.get("addressId")%></td>
-						<td><%=m.get("staffAddress")%></td>
-						<td><%=m.get("lastUpdate")%></td>
+						<td><%=a.getActorId()%></td>
+						<td><%=a.getFirstName()%></td>
+						<td><%=a.getLastName()%></td>
+						<td><%=a.getFilmInfo()%></td>
 					</tr>
 			<%
 				}
 			%>
 		</tbody>
+		
+		<% if(currentPage > 1) {%>
+		<A href="<%=request.getContextPath()%>/actorList.jsp?currentPage=<%=currentPage-1%>" class="btn btn-secondary">[이전]</A>
+		<%}%>
+		<A href="<%=request.getContextPath()%>/actorList.jsp?currentPage=<%=currentPage+1%>" class="btn btn-primary">[다음]</A>
+			
 	</table>
 	  </div>
 	  

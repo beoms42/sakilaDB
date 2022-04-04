@@ -28,10 +28,7 @@
 	  </div>
 	  
 	  <div class="col-sm-5 container">
-		<ol>
-			<li><a href="<%=request.getContextPath() %>/storeList.jsp">Store List</a></li>
-			<li><a href="<%=request.getContextPath() %>/staffList.jsp">Staff List</a></li>
-		</ol>
+		<jsp:include page="/inc/leftMenu.jsp"></jsp:include>
 	  </div>
 	  
 	  <div class="col-sm-4 container">
