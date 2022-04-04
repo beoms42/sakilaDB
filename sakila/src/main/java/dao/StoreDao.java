@@ -1,5 +1,8 @@
 package dao;
 import java.util.*;
+
+import util.DBUtil;
+
 import java.sql.*;
 public class StoreDao {
 	public List<Map<String, Object>> selectStoreList() {
@@ -8,8 +11,9 @@ public class StoreDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila","root","java1234");
+
+			conn = DBUtil.getConnection();
+			
 			/*
 				SELECT 
 					s1.store_id storeId,
@@ -38,6 +42,8 @@ public class StoreDao {
 					+ " AND s1.address_id = a.address_id;";
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
+			
+			
 			while(rs.next()) {
 				Map<String, Object> map = new HashMap<>(); // ´ÙÇü¼º
 				map.put("storeId", rs.getInt("storeId"));
