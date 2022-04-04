@@ -35,8 +35,8 @@
 	  
 	  <div class="col-sm-5 container">
 		
-	<h1>STAFF List</h1>
-	<table border="1">
+	<h1>Staff List</h1>
+	<table border="1" class="table table-striped">
 		<thead>
 			<tr>
 				<th>staffName</th>

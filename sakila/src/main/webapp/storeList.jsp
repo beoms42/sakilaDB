@@ -36,7 +36,7 @@
 	  <div class="col-sm-5 container">
 		
 	<h1>Store List</h1>
-	<table border="1">
+	<table border="1" class="table table-striped">
 		<thead>
 			<tr>
 				<th>storeId</th>
