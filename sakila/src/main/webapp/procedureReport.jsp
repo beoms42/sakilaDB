@@ -6,7 +6,7 @@
 	int min_monthly_purchases = 999;
 	int min_dollar_amount_purchased = 999;
 	
-	FilmDao fd = new FilmDao();
+	RewordDao fd = new RewordDao();
 	
 	//제일 최상위의 MAP
 	Map<String, Object> map = null;
@@ -95,6 +95,8 @@
 					<th>customerId</th>
 					<th>storeId</th>	
 					<th>firstName</th>
+					<th>LastName</th>
+					<th>Email</th>
 					<th>addressId</th>
 					<th>active</th>
 					<th>createDate</th>
@@ -106,13 +108,14 @@
 	 
 	  		for(HashMap h : list) {
 	  			//오브젝트니까 형변환을 해줘야겠지?
-	  			//근데 값을 어케받아오는건지 널이뜨네?
+	  			//
 %>
 
 	  			<tr>
 				<td><%=(Integer)h.get("customerId") %></td>
-				<td><%=(String)h.get("storeId") %></td>
+				<td><%=(Integer)h.get("storeId") %></td>
 				<td><%=(String)h.get("firstName") %></td>
+				<td><%=(String)h.get("lastName") %></td>
 				<td><%=(String)h.get("email") %></td>
 				<td><%=(String)h.get("addressId") %></td>
 				<td><%=(String)h.get("active") %></td>
