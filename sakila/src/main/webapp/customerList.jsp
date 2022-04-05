@@ -1,3 +1,4 @@
+<%@page import="vo.CustomerList"%>
 <%@page import="vo.ActorInfo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
@@ -12,9 +13,8 @@
 	int rowPerPage = 5;
 	int beginRow = (currentPage - 1) * rowPerPage;
 	
-	ActorInfoDao ai = new ActorInfoDao();
-	List<ActorInfo> list = ai.selectActorInfoListByPage(beginRow, rowPerPage);
-	
+	CustomerListDao ci = new CustomerListDao();
+	List<CustomerList> list = ci.selectCustomerInfoListByPage(beginRow, rowPerPage);
 	
 	
 %>
@@ -26,7 +26,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 </head>
 <body>
-<div class="jumbotron text-center" style="margin-bottom:0">
+	<div class="jumbotron text-center" style="margin-bottom:0">
 	  <h1>SAKILA DB</h1>
 	 <jsp:include page="/inc/upMenu.jsp"></jsp:include>
 	</div>
@@ -49,25 +49,33 @@
 	  
 	  <div class="col-sm-5 container">
 		
-	<h1>Actor List</h1>
+	<h1>Customer List</h1>
 	<table border="1" class="table table-striped">
 		<thead>
 			<tr>
-				<th>actorId</th>
-				<th>firstName</th>
-				<th>lastName</th>
-				<th>filmInfo</th>
+				<th>id</th>
+				<th>NAME</th>
+				<th>address</th>
+				<th>zipCode</th>
+				<th>phone</th>
+				<th>city</th>
+				<th>country</th>
+				<th>notes</th>
 			</tr>
 		</thead>
 		<tbody>
 			<%
-				for(ActorInfo a : list) {
+				for(CustomerList c : list) {
 			%>
 					<tr>
-						<td><%=a.getActorId()%></td>
-						<td><%=a.getFirstName()%></td>
-						<td><%=a.getLastName()%></td>
-						<td><%=a.getFilmInfo()%></td>
+						<td><%=c.getId()%></td>
+						<td><%=c.getName()%></td>
+						<td><%=c.getAddress()%></td>
+						<td><%=c.getZipCode()%></td>
+						<td><%=c.getPhone()%></td>
+						<td><%=c.getCity()%></td>
+						<td><%=c.getCountry()%></td>
+						<td><%=c.getNotes()%></td>
 					</tr>
 			<%
 				}
@@ -75,9 +83,9 @@
 		</tbody>
 		
 		<% if(currentPage > 1) {%>
-		<A href="<%=request.getContextPath()%>/actorList.jsp?currentPage=<%=currentPage-1%>" class="btn btn-secondary">[이전]</A>
+		<A href="<%=request.getContextPath()%>/customerList.jsp?currentPage=<%=currentPage-1%>" class="btn btn-secondary">[이전]</A>
 		<%}%>
-		<A href="<%=request.getContextPath()%>/actorList.jsp?currentPage=<%=currentPage+1%>" class="btn btn-primary">[다음]</A>
+		<A href="<%=request.getContextPath()%>/customerList.jsp?currentPage=<%=currentPage+1%>" class="btn btn-primary">[다음]</A>
 			
 	</table>
 	  </div>
