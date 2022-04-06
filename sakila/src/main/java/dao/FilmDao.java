@@ -12,8 +12,34 @@ import java.util.List;
 import java.util.Map;
 
 import util.DBUtil;
+import vo.FilmList;
 
 public class FilmDao {
+	public List<Double> selectFilmPriceDistinctList() {
+		Connection conn = null;
+		PreparedStatement  stmt = null;
+		ResultSet rs = null;
+		conn = DBUtil.getConnection(); 		
+		String sql = "SELECT DISTINCT price FROM film_list ORDER BY price";
+		ArrayList<Double> list = new ArrayList<Double>();	
+		try {
+			stmt = conn.prepareStatement(sql);
+			System.out.println("sql selectFilmListListByPage : " + stmt);
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				list.add(rs.getDouble("price"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close(); stmt.close(); conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
 	public Map<String, Object> filmInStockCall(int filmId, int storeId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		Connection conn = null;
