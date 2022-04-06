@@ -88,7 +88,7 @@
 			</table>
 			
 			<% if(currentPage > 1) {%>
-			<A href="<%=request.getContextPath()%>/searchForm/filmSearchAction.jsp?currentPage=<%=currentPage-1%>" class="btn btn-secondary">[이전]</A>
+			<A href="<%=request.getContextPath()%>/searchForm/filmSearchAction.jsp?currentPage=<%=currentPage-1%>&category=<%=category%>&rating=<%=rating%>&price=<%=price%>&length=<%=length%>&title=<%=title%>&actor=<%=actor%>" class="btn btn-primary"">[이전]</A>
 			<%}%>
 			<A href="<%=request.getContextPath()%>/searchForm/filmSearchAction.jsp?currentPage=<%=currentPage+1%>&category=<%=category%>&rating=<%=rating%>&price=<%=price%>&length=<%=length%>&title=<%=title%>&actor=<%=actor%>" class="btn btn-primary">[다음]</A>
 		
