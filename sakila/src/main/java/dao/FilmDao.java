@@ -142,7 +142,7 @@ public class FilmDao {
 	}
 		
 		//위의 전체행의 로우를 구하는 메서드
-		public int totalRow(int beginRow, int rowPerPage, String category, String rating, double price, int length, String title, String actor) {
+		public int totalRow(String category, String rating, double price, int length, String title, String actor) {
 			List<FilmList> list = new ArrayList<FilmList>();
 			Connection conn = null;
 			PreparedStatement stmt = null;
@@ -162,8 +162,6 @@ public class FilmDao {
 			stmt.setString(1, "%"+title+"%"); 
 			stmt.setString(2, "%"+actor+"%");
 			stmt.setString(3, "%"+category+"%");
-			stmt.setInt(4, beginRow);
-			stmt.setInt(5, rowPerPage);
 			} else if(price==-1 && length!=-1 && rating.equals("")) { // length만선택할경우,2
 			if(length == 0) {
 			sql += " AND length<60 ";
@@ -174,8 +172,6 @@ public class FilmDao {
 			stmt.setString(1, "%"+title+"%");
 			stmt.setString(2, "%"+actor+"%");
 			stmt.setString(3, "%"+category+"%");
-			stmt.setInt(4, beginRow);
-			stmt.setInt(5, rowPerPage);
 			} else if(rating.equals("") && price!=-1 && length==-1) { // price만선택할경우, 3
 			sql += " AND price=? ";
 			stmt = conn.prepareStatement(sql);
@@ -183,8 +179,6 @@ public class FilmDao {
 			stmt.setString(2, "%"+actor+"%");
 			stmt.setString(3, "%"+category+"%");
 			stmt.setDouble(4, price);
-			stmt.setInt(5, beginRow);
-			stmt.setInt(6, rowPerPage);
 			} else if(!rating.equals("") && price==-1 && length==-1) { // rating만선택할경우 ,4
 			sql += " AND rating=? ";
 			stmt = conn.prepareStatement(sql);
@@ -192,8 +186,6 @@ public class FilmDao {
 			stmt.setString(2, "%"+actor+"%");
 			stmt.setString(3, "%"+category+"%");
 			stmt.setString(4, rating);
-			stmt.setInt(5, beginRow);
-			stmt.setInt(6, rowPerPage);
 			} else if (price!=-1 && length!=-1 && rating.equals("")) { // length + price ,5
 			if(length == 0) {
 			sql += " AND length<60 AND price=? ";
@@ -205,8 +197,6 @@ public class FilmDao {
 			stmt.setString(2, "%"+actor+"%");
 			stmt.setString(3, "%"+category+"%");
 			stmt.setDouble(4, price);
-			stmt.setInt(5, beginRow);
-			stmt.setInt(6, rowPerPage);
 			} else if (price==-1 && length!=-1 && !rating.equals("")) { // length + rating ,6
 			if(length == 0) {
 			sql += " AND length<60 AND rating=? ";
@@ -218,8 +208,6 @@ public class FilmDao {
 			stmt.setString(2, "%"+actor+"%");
 			stmt.setString(3, "%"+category+"%");
 			stmt.setString(4, rating);
-			stmt.setInt(5, beginRow);
-			stmt.setInt(6, rowPerPage);
 			} else if (price!=-1 && length==-1 && !rating.equals("")) { // rating + price ,7
 			sql += " AND rating=? AND price=? ";
 
@@ -229,8 +217,6 @@ public class FilmDao {
 			stmt.setString(3, "%"+category+"%");
 			stmt.setString(4, rating);
 			stmt.setDouble(5, price);
-			stmt.setInt(6, beginRow);
-			stmt.setInt(7, rowPerPage);
 
 			} else if (price!=-1 && length!=-1 && !rating.equals("")) { // rating + price + length ,8 모든경우의수2 * 2 * 2 = 8
 			if(length == 0) {
@@ -244,8 +230,6 @@ public class FilmDao {
 			stmt.setString(3, "%"+category+"%");
 			stmt.setString(4, rating);
 			stmt.setDouble(5, price);
-			stmt.setInt(6, beginRow);
-			stmt.setInt(7, rowPerPage);
 			}
 
 			rs = stmt.executeQuery();
