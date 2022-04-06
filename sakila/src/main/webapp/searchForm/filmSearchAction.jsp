@@ -23,7 +23,8 @@
 	
 	FilmDao filmDao = new FilmDao();
 	List<FilmList> list = filmDao.selectFilmListSearch(beginRow ,rowPerPage ,category, rating, price, length, title, actor);
-	System.out.println(list.size()); // 0
+	int count = filmDao.totalRow(beginRow, rowPerPage, category, rating, price, length, title, actor);
+	
 %>
 
 <!DOCTYPE html>
@@ -72,6 +73,9 @@
 				<%		
 					}
 				%>
+				<tr>
+					<td><%=count %></td>
+				<tr>
 			</table>
 	
 	  </div>

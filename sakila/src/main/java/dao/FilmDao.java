@@ -140,6 +140,125 @@ public class FilmDao {
 			return list;
 		
 	}
+		
+		//위의 전체행의 로우를 구하는 메서드
+		public int totalRow(int beginRow, int rowPerPage, String category, String rating, double price, int length, String title, String actor) {
+			List<FilmList> list = new ArrayList<FilmList>();
+			Connection conn = null;
+			PreparedStatement stmt = null;
+			ResultSet rs = null;
+			conn = DBUtil.getConnection();
+			int count = -1;
+			try {
+			// 동적쿼리
+			// 기본세팅= category  / title / actor
+			// 분기> 3개만할건데1, 0 / 0, 1 / 0, 0 / 1,1 4가지경우의수가가능
+
+			String sql = "SELECT count(*) as count FROM film_list WHERE title LIKE ? AND actors LIKE ? AND category LIKE ?";
+			if(price==-1 && length==-1 && rating.equals("")) { // category / title / actor 중첩선택가능
+			sql += " "; // category / title / actor 첨부터공백이기떄문에굳이분기하지않아도됨, 1 비선택시
+			stmt = conn.prepareStatement(sql);
+			System.out.println(category + "<-------------------- category");
+			stmt.setString(1, "%"+title+"%"); 
+			stmt.setString(2, "%"+actor+"%");
+			stmt.setString(3, "%"+category+"%");
+			stmt.setInt(4, beginRow);
+			stmt.setInt(5, rowPerPage);
+			} else if(price==-1 && length!=-1 && rating.equals("")) { // length만선택할경우,2
+			if(length == 0) {
+			sql += " AND length<60 ";
+			} else if(length == 1) {
+			sql += " AND length>=60 ";
+			}
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%"+title+"%");
+			stmt.setString(2, "%"+actor+"%");
+			stmt.setString(3, "%"+category+"%");
+			stmt.setInt(4, beginRow);
+			stmt.setInt(5, rowPerPage);
+			} else if(rating.equals("") && price!=-1 && length==-1) { // price만선택할경우, 3
+			sql += " AND price=? ";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%"+title+"%");
+			stmt.setString(2, "%"+actor+"%");
+			stmt.setString(3, "%"+category+"%");
+			stmt.setDouble(4, price);
+			stmt.setInt(5, beginRow);
+			stmt.setInt(6, rowPerPage);
+			} else if(!rating.equals("") && price==-1 && length==-1) { // rating만선택할경우 ,4
+			sql += " AND rating=? ";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%"+title+"%");
+			stmt.setString(2, "%"+actor+"%");
+			stmt.setString(3, "%"+category+"%");
+			stmt.setString(4, rating);
+			stmt.setInt(5, beginRow);
+			stmt.setInt(6, rowPerPage);
+			} else if (price!=-1 && length!=-1 && rating.equals("")) { // length + price ,5
+			if(length == 0) {
+			sql += " AND length<60 AND price=? ";
+			} else if(length == 1) {
+			sql += " AND length>=60 AND price=? ";
+			}
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%"+title+"%");
+			stmt.setString(2, "%"+actor+"%");
+			stmt.setString(3, "%"+category+"%");
+			stmt.setDouble(4, price);
+			stmt.setInt(5, beginRow);
+			stmt.setInt(6, rowPerPage);
+			} else if (price==-1 && length!=-1 && !rating.equals("")) { // length + rating ,6
+			if(length == 0) {
+			sql += " AND length<60 AND rating=? ";
+			} else if(length == 1) {
+			sql += " AND length>=60 AND rating=? ";
+			}
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%"+title+"%");
+			stmt.setString(2, "%"+actor+"%");
+			stmt.setString(3, "%"+category+"%");
+			stmt.setString(4, rating);
+			stmt.setInt(5, beginRow);
+			stmt.setInt(6, rowPerPage);
+			} else if (price!=-1 && length==-1 && !rating.equals("")) { // rating + price ,7
+			sql += " AND rating=? AND price=? ";
+
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%"+title+"%");
+			stmt.setString(2, "%"+actor+"%");
+			stmt.setString(3, "%"+category+"%");
+			stmt.setString(4, rating);
+			stmt.setDouble(5, price);
+			stmt.setInt(6, beginRow);
+			stmt.setInt(7, rowPerPage);
+
+			} else if (price!=-1 && length!=-1 && !rating.equals("")) { // rating + price + length ,8 모든경우의수2 * 2 * 2 = 8
+			if(length == 0) {
+			sql += " AND length<60 AND rating=? AND price=? ";
+			} else if(length == 1) {
+			sql += " AND length>=60 AND rating=? AND price=? ";
+			}
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%"+title+"%");
+			stmt.setString(2, "%"+actor+"%");
+			stmt.setString(3, "%"+category+"%");
+			stmt.setString(4, rating);
+			stmt.setDouble(5, price);
+			stmt.setInt(6, beginRow);
+			stmt.setInt(7, rowPerPage);
+			}
+
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+			count = (rs.getInt("count"));
+			}
+			} catch(SQLException e) {
+			e.printStackTrace();
+			}
+				return count;
+			}
+		
+		
 	public List<Double> selectFilmPriceDistinctList() {
 		Connection conn = null;
 		PreparedStatement  stmt = null;
@@ -288,4 +407,5 @@ public class FilmDao {
 		map.put("count", count);
 		return map;
 	}
+	
 }
