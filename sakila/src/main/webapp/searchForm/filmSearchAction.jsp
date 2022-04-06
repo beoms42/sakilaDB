@@ -13,17 +13,26 @@
 	if(!request.getParameter("length").equals("")) {
 		length = Integer.parseInt(request.getParameter("length"));
 	}
-	String title = "";
-	title = request.getParameter("title");
-	String actor = ""; 
-	actor = request.getParameter("actor");
+	String title = request.getParameter("title");
+	String actor = request.getParameter("actor");
 	
-	int beginRow = 0;
-	int rowPerPage = 10;
+	int currentPage = 1;
+	
+	if(request.getParameter("currentPage") !=  null) {
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
+
+	int rowPerPage = 5;
+	int beginRow = (currentPage - 1) * rowPerPage;
+	int lastPage = 0;
+	
 	
 	FilmDao filmDao = new FilmDao();
 	List<FilmList> list = filmDao.selectFilmListSearch(beginRow ,rowPerPage ,category, rating, price, length, title, actor);
 	int count = filmDao.totalRow( category, rating, price, length, title, actor);
+	
+	
+	
 	
 %>
 
@@ -71,12 +80,18 @@
 							<td><%=f.getActors()%></td>
 						</tr>
 				<%		
-					}
+					} 
 				%>
 				<tr>
 					<td><%=count %></td>
 				<tr>
 			</table>
+			
+			<% if(currentPage > 1) {%>
+			<A href="<%=request.getContextPath()%>/searchForm/filmSearchAction.jsp?currentPage=<%=currentPage-1%>" class="btn btn-secondary">[이전]</A>
+			<%}%>
+			<A href="<%=request.getContextPath()%>/searchForm/filmSearchAction.jsp?currentPage=<%=currentPage+1%>&category=<%=category%>&rating=<%=rating%>&price=<%=price%>&length=<%=length%>&title=<%=title%>&actor=<%=actor%>" class="btn btn-primary">[다음]</A>
+		
 	
 	  </div>
 	  <div class="col-sm-4 container">

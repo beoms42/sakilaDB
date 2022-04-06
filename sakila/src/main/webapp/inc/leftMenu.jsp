@@ -20,3 +20,9 @@
 			<li><a href="<%=request.getContextPath() %>/procedureFilmNotInStock.jsp">procedureFilmNotInStock</a></li>
 			<li><a href="<%=request.getContextPath() %>/procedureReport.jsp">procedureReport</a></li>
 		</ol>
+		
+		<ol>
+		Searching List
+			<li><a href="<%=request.getContextPath() %>/searchForm/filmSearchForm.jsp">procedureFilmInStock</a></li>
+		</ol>
+		
