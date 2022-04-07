@@ -24,5 +24,6 @@
 		<ol>
 		Searching List
 			<li><a href="<%=request.getContextPath() %>/searchForm/filmSearchForm.jsp">procedureFilmInStock</a></li>
+			<li><a href="<%=request.getContextPath() %>/searchForm/rentalFilm.jsp">Rental</a></li>
 		</ol>
 		

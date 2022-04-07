@@ -5,6 +5,28 @@ import util.DBUtil;
 
 import java.sql.*;
 public class StoreDao {
+	
+	public List<Integer> selectStoreIdList() throws Exception {
+		
+		List<Integer> list = new ArrayList<Integer>();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		conn = DBUtil.getConnection();
+		
+		String sql = "select store_id storeId from store";
+		
+		stmt = conn.prepareStatement(sql);
+		
+		rs = stmt.executeQuery();
+		
+		while(rs.next()) {
+			list.add(rs.getInt("storeId"));
+		}
+		return list;	
+	}
+	
 	public List<Map<String, Object>> selectStoreList() {
 		List<Map<String, Object>> list = new ArrayList<>(); // ´ÙÇü¼º
 		Connection conn = null;
