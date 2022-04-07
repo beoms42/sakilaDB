@@ -40,6 +40,9 @@
 	RentalDao rd = new RentalDao();
 	List<Map<String, Object>> list = rd.selectRentalList(storeId, customerName, beginDate, endDate, beginRow, rowPerPage);
 	
+	int count = 999999;
+	count = rd.totalRentalDao(storeId, customerName, beginDate, endDate);
+	
 	
 %>
 <!DOCTYPE html>
