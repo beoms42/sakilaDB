@@ -43,10 +43,12 @@
 		<h1>대여 상세 검색</h1>
 			
 		<form action="<%=request.getContextPath()%>/searchForm/rentalSearchAction.jsp" method="post">
-				<table border="1">
+				<table border="1" class="table">
 					<tr>
 						<td>스토어 ID</td>
+						
 						<td>
+						<div><input type="radio" name="storeId" value="" checked="checked">전체검색</div>
 							<%
 								for(int i : storeIdList) {
 									
@@ -60,12 +62,12 @@
 					
 					<tr>
 						<td>고객이름</td>
-						<td><input type="text" name="customerName"></td>
+						<td><input type="text" name="customerName" value=""></td>
 					</tr>
 					
 					<tr>
 						<td>대여일자</td>
-						<td><input type="date" name="beginDate"> ~ <input type="date" name="endDate"></td>
+						<td><input type="date" name="beginDate" value=""> ~ <input type="date" name="endDate" value=""></td>
 					</tr>
 					
 					<tr>
